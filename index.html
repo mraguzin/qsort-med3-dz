@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Medijan-od-tri Quicksort</title>
+        <style>
+            input:invalid+span:after {
+                content: '✖';
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="qsort.js"></script>
+        <script>
+            function sortAndTime()
+            {
+                let start, end;
+
+                let A = randgen(document.getElementById('n').value);
+                let B = [...A]; // kopiraj A
+
+                start = Date.now();
+                qsort(A, 0, A.length);
+                end = Date.now();
+                let slowTime = end - start;
+
+                start = Date.now();
+                qsort_med3(B, 0, B.length);
+                end = Date.now();
+                let fastTime = end - start;
+
+                let text = document.getElementById('time');
+                text.hidden = false;
+                let slowText = document.getElementById('slowtime');
+                let fastText = document.getElementById('fasttime');
+                let percentText = document.getElementById('speedup');
+                slowText.textContent = slowTime + ' ms';
+                fastText.textContent = fastTime + ' ms';
+                if (fastTime > slowTime) {
+                    percentText.textContent = 'Sporije!';
+                } else {
+                    percentText.textContent = slowTime / fastTime * 100 - 100 + '%';
+                }
+
+                let check = document.getElementById('showres');
+                if (check.checked) {
+                    box.textContent = '';
+                    let box = document.getElementById('result');
+                    for (const num of A) {
+                        box.textContent += ' ' + num;
+                    }
+                }
+            }
+        </script>
+
+        <button id="sort" onclick="sortAndTime();">Sortiraj</button>
+        <label for="n">Broj slučajno generiranih brojeva:</label>
+        <input type="number" required min="10" max="1000000000"  id="n">
+        <span class="validity"></span>
+        <label for="showres">Prikazuj sortirano polje (isključite za imalo veće n!)</label>
+        <input type="checkbox" id="showres">
+        <div id="time" hidden><p>Vrijeme za standardni Quicksort: <span id="slowtime"></span></p>
+        <p>Vrijeme za Medijan-od-tri Quicksort: <span id="fasttime"></span></p>
+        <p>Ubrzanje za Medijan-od-tri: <span id="speedup"></span></p>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </body>
+</html>
