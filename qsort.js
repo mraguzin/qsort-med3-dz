@@ -25,20 +25,24 @@ function qsort(A, l, n) // l se koristi za početak segmenta tj. pomak koji treb
     qsort(A, l + j + 1, n - j - 1);
 }
 
-function med3(a, b, c) // odabir medijana od dana 3 elementa
+function med3(A, offset, a, b, c) // odabir medijana od dana 3 elementa polja A
 {
-    if (a < b) {
-        if (b < c) {
+    a += offset;
+    b += offset;
+    c += offset;
+
+    if (A[a] < A[b]) {
+        if (A[b] < A[c]) {
             return b;
-        } else if (a < c) {
+        } else if (A[a] < A[c]) {
             return c;
         } else {
             return a;
         }
     } else {
-        if (b > c) {
+        if (A[b] > A[c]) {
             return b;
-        } else if (c > a) {
+        } else if (A[c] > A[a]) {
             return a;
         } else {
             return c;
@@ -55,9 +59,9 @@ function qsort_med3(A, l, n)
     let i1 = Math.floor(Math.random() * n);
     let i2 = Math.floor(Math.random() * n);
     let i3 = Math.floor(Math.random() * n);
-    let med = med3(i1, i2, i3);
+    let med = med3(A, l, i1, i2, i3);
 
-    [A[med + l], A[l]] = [A[l], A[med + l]];
+    [A[med], A[l]] = [A[l], A[med]];
 
     let j = n;
     let k = 0;
@@ -69,7 +73,7 @@ function qsort_med3(A, l, n)
         [A[j + l], A[k + l]] = [A[k + l], A[j + l]]; // zamjena j-tog i k-tog elementa polja
     }
 
-    [A[j + l], A[l]] = [A[l], A[j + l]]; // konačna zamjena
+    [A[j + l], A[med]] = [A[med], A[j + l]]; // konačna zamjena
     qsort_med3(A, l, j);
     qsort_med3(A, l + j + 1, n - j - 1);
 }
